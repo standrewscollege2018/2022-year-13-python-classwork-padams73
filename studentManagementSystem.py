@@ -68,9 +68,52 @@ def display_student(name):
             print("=" * 30)
             print("")
 
+def generate_students():
+    ''' Import students from a csv file'''
+    # Import the csv package to enable the program to work with a csv
+    import csv
+    # Open the csv file, call is csvfile
+    with open('myRandomStudents.csv', newline='') as csvfile:
+        # use the reader() function and put the results into a variable called filereader
+        filereader = csv.reader(csvfile)
+        # Loop through the csv, one row at a time
+        
+        for line in filereader:
+            # For each row, we grab the classes in columns D-H and put them into a list
+            # the classes therefore can be found in line[3] to line[7]
+            classes = []
+            i = 3
+            while i in range(3,8):
+                # Creating a master list of all class codes
+                if line[i] not in all_classes:
+                    all_classes.append(line[i])
+                # Add class to student list of classes    
+                classes.append(line[i])
+                i += 1
+                # Create a new student object
+            Student(line[0], int(line[1]), int(line[2]), classes)
 
-display_students()
+def class_search():
+    ''' This function gets the user to choose a class code from a list and
+        returns the names of all students enrolled in that class
+        It should also return a count of the number of students found '''
 
-student_name = input("Enter name of student:")
-display_student(student_name)
+    print("Select the class:")
+    for c in range(len(all_classes)):
+        print(f"{c+1}. {all_classes[c]}")
+    selection = int(input("Class number: "))
+    count = 0
+    for s in student_list:
+        if all_classes[selection-1] in s.get_classes():
+            count += 1
+            print(s.get_name())
+    print(f"{count} students found")
+
+all_classes = []    
+
+generate_students()
+#display_students()
+class_search()
+
+
 
