@@ -46,6 +46,9 @@ class Student:
     
 # List to store students
 student_list = []
+# List to store all class codes
+all_classes = []  
+
 
 #Create students
 Student("John", 16, 275044001,["MATH", "DIGI"])
@@ -91,6 +94,7 @@ def generate_students():
                 classes.append(line[i])
                 i += 1
                 # Create a new student object
+            
             Student(line[0], int(line[1]), int(line[2]), classes)
 
 def class_search():
@@ -109,11 +113,53 @@ def class_search():
             print(s.get_name())
     print(f"{count} students found")
 
-all_classes = []    
+def add_student():
+    ''' Function enables us to add a new student '''
+
+    name = input("Name: ")
+    age = int(input("Age: "))
+    phone = int(input("Phone: "))
+    classes = []
+    ask_class = True
+    while ask_class == True:
+        c = input("Enter class code (-1 to end): ")
+        if c == "-1":
+            ask_class = False
+        else:
+            classes.append(c)
+
+    Student(name, age, phone, classes)
+              
+def delete_student():
+    ''' Delete a student by finding them by name and deleting them from the student_list '''
+
+
+def update_student():
+    ''' Choose what to update (name, age, phone), then enter the new info.
+        Then call a setter function on the object itself to set the new value '''
+
+    
+    
+
+    
 
 generate_students()
-#display_students()
-class_search()
+
+run_program = True
+while run_program:
+    print("1. Add student\n2. Class lists\n3. Search for student\n4. Display all students\n5. Quit")
+    selection = int(input())
+    if selection == 1:
+        add_student()
+    elif selection == 2:
+        class_search()
+    elif selection == 3:
+        name = input("Enter name: ")
+        display_student(name)
+    elif selection == 4:
+        display_students()
+    else:
+        run_program = False
 
 
 
