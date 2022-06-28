@@ -12,10 +12,16 @@ class Student:
         self._phone = phone
         self._classes = classes
         self._enrolled = True
+ 
 
         # Append to student_list
         student_list.append(self)
 
+    def __del__(self):
+        ''' This function is automatically called when the object is deleted '''
+        
+        print("Student record has permanently been deleted")
+    
     def get_name(self):
         ''' Return student name'''
 
@@ -43,16 +49,12 @@ class Student:
         for c in self._classes:
             class_list += c + " "
         return class_list
-    
+
+        
 # List to store students
 student_list = []
 # List to store all class codes
 all_classes = []  
-
-
-#Create students
-Student("John", 16, 275044001,["MATH", "DIGI"])
-Student("Jake", 17, 234567, ["DIGI", "PHYS", "BIOL"])
 
 def display_students():
     ''' Display names of all students '''
@@ -61,6 +63,7 @@ def display_students():
 
 def display_student(name):
     ''' Display details of selected student '''
+    count = 0
     for s in student_list:
         if name in s.get_name():
             print("=" * 30)
@@ -70,6 +73,9 @@ def display_student(name):
             print(f"Classes: {s.get_classes()}")
             print("=" * 30)
             print("")
+            count += 1
+    if count == 0:
+        print("No matches found")
 
 def generate_students():
     ''' Import students from a csv file'''
@@ -96,6 +102,7 @@ def generate_students():
                 # Create a new student object
             
             Student(line[0], int(line[1]), int(line[2]), classes)
+
 
 def class_search():
     ''' This function gets the user to choose a class code from a list and
@@ -133,6 +140,20 @@ def add_student():
 def delete_student():
     ''' Delete a student by finding them by name and deleting them from the student_list '''
 
+    # Display list of all students
+    display_students()
+    # Get name of student to delete
+    del_name = input("Enter name of student to delete: ")
+    # Loop through student_list, find matching student, then delete them
+    for s in student_list:
+        if s.get_name() == del_name:
+            index = student_list.index(s)
+            del student_list[index]
+            print(f"{del_name} deleted")
+        else:
+            "No matching student found"
+    
+    
 
 def update_student():
     ''' Choose what to update (name, age, phone), then enter the new info.
@@ -145,9 +166,10 @@ def update_student():
 
 generate_students()
 
+
 run_program = True
 while run_program:
-    print("1. Add student\n2. Class lists\n3. Search for student\n4. Display all students\n5. Quit")
+    print("1. Add student\n2. Class lists\n3. Search for student\n4. Display all students\n5. Delete student\n6. Quit")
     selection = int(input())
     if selection == 1:
         add_student()
@@ -158,6 +180,8 @@ while run_program:
         display_student(name)
     elif selection == 4:
         display_students()
+    elif selection == 5:
+        delete_student()
     else:
         run_program = False
 
